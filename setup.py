@@ -9,7 +9,7 @@ setup(
     install_requires = [
         'ffmpeg-python',
         'gym-super-mario-bros',
-        'gym=0.22',
+        'gym==0.22',
         'PyOpenGL',
         'pyvirtualdisplay',
         'stable-baselines3[extra]==1.0.0',
