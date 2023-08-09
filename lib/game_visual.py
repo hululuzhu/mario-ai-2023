@@ -14,10 +14,11 @@ def glance_env(env, gif_path, sample_steps=40, action=0):
         images.append(Image.fromarray(screen))
         for _ in range(4): # skip frames for efficiency
             if done:
-                if isinstance(env, game_env.ShuffleEnv):
-                    env.env.reset()
-                else:
-                    env.reset()
+                try:
+                  # try multi-env within-session reset first
+                  env.env.reset()
+                except:
+                  env.reset()
                 break
             obs, reward, done, info = env.step(action)
     if len(images) > 1:

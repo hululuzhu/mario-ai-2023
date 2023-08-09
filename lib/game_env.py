@@ -103,6 +103,7 @@ class ShuffleEnv(gym.Env):
         self.name = self.game_list[self.cur]
         self.env = self.envs[self.cur]
         self.action_space = self.env.action_space
+        self.render = self.env.render
 
     def step(self, action):
         return self.env.step(action)
@@ -111,7 +112,6 @@ class ShuffleEnv(gym.Env):
         self.cur = (self.cur + 1) % len(self.game_list)
         self._next_env()
         self.env.reset()
-        self.render = self.env.render
 
     def _blur(self, obs):
         return obs
