@@ -93,7 +93,6 @@ def build_rotation_envs(mario_game_list, action_list, is_human_view=False):
 
 class ShuffleEnv(gym.Env):
     """A custom game evn that will reset game stage env evry time."""
-
     def __init__(self, mario_game_list, action_list, is_human_view):
         super(ShuffleEnv, self).__init__()
         self.envs = build_rotation_envs(mario_game_list, action_list, is_human_view)
@@ -106,16 +105,13 @@ class ShuffleEnv(gym.Env):
         self.action_space = self.env.action_space
 
     def step(self, action):
-        obs, reward, done, info = self.env.step(
-            action)   # calls the gym env methods
-        # applies your specific treatment
-        obs = self._blur(obs)
-        return obs, reward, done, info
+        return self.env.step(action)
 
     def reset(self):
         self.cur = (self.cur + 1) % len(self.game_list)
         self._next_env()
         self.env.reset()
+        self.render = self.env.render
 
     def _blur(self, obs):
         return obs
