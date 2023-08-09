@@ -16,3 +16,4 @@ A new Super Mario fun-AI-course
 
 ## Progress log
 - 08/07: Initial plan
+- 08/08: Add basic env/visual/control lib, and a visualization notebook of all 32 stages
