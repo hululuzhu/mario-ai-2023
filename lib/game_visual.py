@@ -16,16 +16,16 @@ def visualize_multi_stages(start_end_worlds, start_end_stages, is_human_view=Tru
     assert len(start_end_worlds) == len(start_end_stages) == 2, (
         "must be pairs for worlds and stages")
     hboxs = []
-    for w in tqdm(range(start_end_worlds)):
-        stage_names = [game_env.get_env_name(w, s) for s in range(start_end_stages)]
+    for w in tqdm(range(*start_end_worlds)):
+        stage_names = [game_env.get_env_name(w, s) for s in range(*start_end_stages)]
         stage_names = [k[:-1] + '1' for k in stage_names]
         multi_env = game_env.ShuffleEnv(
            stage_names, game_control.SIMPLE_ACTIONS, is_human_view=is_human_view)
-        for i in range(start_end_stages):
+        for i in range(*start_end_stages):
             glance_env(multi_env, f"{_GIF_PATH}/glance{w}{i}.gif",
                        is_human_view=is_human_view)
         hboxs.append(wrapper_gifs_horizontal([
-           f"{_GIF_PATH}/glance{w}{i}.gif" for i in range(start_end_stages)]))
+           f"{_GIF_PATH}/glance{w}{i}.gif" for i in range(*start_end_stages)]))
     return hboxs
 
 
