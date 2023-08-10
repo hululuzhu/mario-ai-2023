@@ -7,7 +7,7 @@ from ipywidgets import widgets, HBox
 from tqdm.notebook import tqdm
 
 
-_GIF_PATH = "/mario_gifs"
+_GIF_PATH = "/tmp/mario_ai_gifs"
 
 def visualize_multi_stages(start_end_worlds, start_end_stages, is_human_view=True):
     if not os.path.exists(_GIF_PATH):
