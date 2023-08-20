@@ -5,6 +5,7 @@ import game_env
 import os
 from ipywidgets import widgets, HBox
 from tqdm.notebook import tqdm
+import torch
 
 
 _GIF_PATH = "/tmp/mario_ai_gifs"
@@ -55,6 +56,44 @@ def glance_env(env, gif_path, is_human_view=True, sample_steps=40, action=0):
             gif_path, save_all=True, append_images=images[1:], loop=0, duration=1)
     else:
         raise("Bad environment, cannot move")
+
+
+def evaluate(model, env, gif_path, max_steps=1000, best_of_n=10):
+  best_img = []
+  all_rewards = []
+  best_reward = 0
+  for i in range(best_of_n): # choose 1 best out of N
+    # Required as of 08/2023
+    _ = env.reset()
+    screen = env.render(mode='rgb_array')
+    im = Image.fromarray(screen)
+    images = [im]
+    obs = env.reset()
+    cur_best_reward = 0
+    for i in range(1, max_steps + 1):
+      # Reformat lazyframe to numpy for predict method
+      b = torch.Tensor(4, 84, 84)
+      torch.stack(obs._frames, out=b)
+      action, _ = model.predict(b.numpy())
+      # print("action", action)
+      # As of 09/2022, step func seems complain action as numpy scalar, so convert to int
+      obs, reward, done, _ = env.step(action.tolist())
+      cur_best_reward += reward
+      # Render screen every 8/4 = 2 steps
+      if i % 2 == 0:
+        screen = env.render(mode='rgb_array')
+        images.append(Image.fromarray(screen))
+      if done:
+        break
+    all_rewards.append(cur_best_reward)
+    if cur_best_reward > best_reward or (
+        cur_best_reward == best_reward and len(images) > len(best_img)
+    ):
+      best_reward = cur_best_reward
+      best_img = images
+  best_img[0].save(
+      gif_path, save_all=True, append_images=best_img[1:], loop=0, duration=1)
+  print(f"Best episode out of {best_of_n} saved to", gif_path)
 
 
 def _cast_to_ai_view(screen_frame):
