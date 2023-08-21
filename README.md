@@ -1,5 +1,14 @@
 # mario-ai-2023
-A new Super Mario fun-AI-course
+A new fun-AI-course on Game and AI
+
+## V1 ready
+- Slides at [here](./slides/pub_v1_szhu_ai_game_intro_082023.pdf)
+- Three notebooks
+  - [Cart Pole AI](./notebooks/cartpole_e2e_08202023.ipynb)
+  - [Mario Game Visualization](./notebooks/mario_visualize.ipynb)
+  - [Mario AI skeleton](./notebooks/mario_ai_e2e_08202023.ipynb)
+- A small sup lib
+  - Mario control/env/visualization related
 
 ## Plan as of 08/07
 - Write helper config and functions as committed files, including but not limited to
@@ -17,3 +26,4 @@ A new Super Mario fun-AI-course
 ## Progress log
 - 08/07: Initial plan
 - 08/08: Add basic env/visual/control lib, and a visualization notebook of all 32 stages
+- 08/20: V1 slides and 3 notebooks ready
